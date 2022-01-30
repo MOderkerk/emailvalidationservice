@@ -63,7 +63,9 @@ jobs:
          run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_emailValidationService
        - name: SonarQube Quality Gate Check
          uses: SonarSource/sonarqube-quality-gate-action@v1.0.0
-
+         env:
+           GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}  # Needed to get PR information, if any
+           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
        - name: Versions checker dependencies
          run: mvn -B -P java11 versions:display-dependency-updates versions:display-property-updates
 
