@@ -60,15 +60,8 @@ jobs:
          env:
            GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}  # Needed to get PR information, if any
            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_emailValidationService
+         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_emailValidationService -Dsonar.qualitygate.wait=true
 
-       - name: SonarQube Quality Gate Check
-         uses: SonarSource/sonarqube-quality-gate-action@v1.0.0
-         env:
-           GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}  # Needed to get PR information, if any
-           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-         with:
-           scanMetadataReportFile: /home/runner/work/EmailValidationService/EmailValidationService/target/sonar/scanner-report/report-task.txt
        - name: Versions checker dependencies
          run: mvn -B -P java11 versions:display-dependency-updates versions:display-property-updates
 
