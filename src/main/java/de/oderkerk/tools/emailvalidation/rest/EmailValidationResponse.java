@@ -15,9 +15,11 @@
 
 package de.oderkerk.tools.emailvalidation.rest;
 
+import de.oderkerk.tools.emailvalidation.logging.Slf4jMDCFilterConfiguration;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.MDC;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class EmailValidationResponse {
 
     public EmailValidationResponse() {
         validationErrorList = new ArrayList<>();
+        this.uniqueID = MDC.get(Slf4jMDCFilterConfiguration.DEFAULT_MDC_UUID_TOKEN_KEY);
     }
 
     /**

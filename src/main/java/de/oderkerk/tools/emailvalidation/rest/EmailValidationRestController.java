@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/api/v1")
@@ -44,6 +45,7 @@ public class EmailValidationRestController implements Serializable {
         checkRequestData(emailValidationRequest);
         EmailValidationResponse emailValidationResponse = new EmailValidationResponse();
 
+        emailValidationResponse.setEmailIsValid(true);
         return new ResponseEntity<>(emailValidationResponse, HttpStatus.OK);
     }
 
@@ -53,7 +55,7 @@ public class EmailValidationRestController implements Serializable {
      * @param emailValidationRequest to be checked
      */
     private void checkRequestData(EmailValidationRequest emailValidationRequest) {
-        if (emailValidationRequest == null || emailValidationRequest.getEmailAddress().isBlank())
+        if (Objects.isNull(emailValidationRequest.getEmailAddress()) || emailValidationRequest.getEmailAddress().isBlank())
             throw new IllegalArgumentException("Email Address is missing");
     }
 }
