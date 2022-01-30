@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: odinsEmailValidation
+
+odin:
+  slf4jfilter:
+    request_header: "X-Header-Token"
+################################################################################################
+##                  L O G G I N G
+################################################################################################
+## Loglevel Config
+logging:
+  level:
+    root: "error"
+    de.oderkerk.tools: "debug"
+    de.oderkerk.tools.emailvalidation.EmailValidationServiceApplication: "info"
+
+  ## Log pattern configuration
+  # Slf4jMDCFilter.UUID ist eine Log-Variable die eine eindeutige Request ID ausgibt. Diese ID wird in Fehlermeldungen und
+  # als Response Header zurückgegeben um ein Tracing , sofern ein entsprechendes Loglevel (error nur fehlerlogs , debug mehr infos)
+  # eingestellt ist
+
+  pattern:
+    "console=[%-5p]|%d{ISO8601}[%X{Slf4jMDCFilter.UUID}]%logger{26}|%m%ex%n"
+  register-shutdown-hook: true
+  logging.exception-conversion-word: "%ex"
+
