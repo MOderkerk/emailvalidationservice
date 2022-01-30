@@ -18,11 +18,13 @@ package de.oderkerk.tools.emailvalidation.rest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest
 class EmailValidationRestControllerTest {
 
     @BeforeEach
@@ -36,7 +38,8 @@ class EmailValidationRestControllerTest {
     @Test
     void validateEMailAddressforNull() {
         EmailValidationRestController emailValidationRestController = new EmailValidationRestController();
-        assertThrows(IllegalArgumentException.class, () -> emailValidationRestController.validateEMailAddress(new EmailValidationRequest()));
+        EmailValidationRequest emailValidationRequest = new EmailValidationRequest();
+        assertThrows(IllegalArgumentException.class, () -> emailValidationRestController.validateEMailAddress(emailValidationRequest));
 
     }
 
