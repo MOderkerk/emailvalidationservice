@@ -1,0 +1,70 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: BUILD
+
+on:
+  push:
+    branches: [ development ]
+
+
+jobs:
+
+   build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [ 8, 11, 16 ]
+
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK ${{ matrix.version }}
+      uses: actions/setup-java@v2
+      with:
+        java-version: '${{ matrix.version }}'
+        distribution: 'adopt'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml -P java${{ matrix.version }}
+
+   quality:
+     needs: build
+     # The type of runner that the job will run on
+     runs-on: ubuntu-latest
+
+     # Steps represent a sequence of tasks that will be executed as part of the job
+     steps:
+       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+       - uses: actions/checkout@v2
+         with:
+           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+       - name: Set up JDK 11
+         uses: actions/setup-java@v1
+         with:
+           java-version: 11
+       - name: Cache SonarCloud packages
+         uses: actions/cache@v1
+         with:
+           path: ~/.sonar/cache
+           key: ${{ runner.os }}-sonar
+           restore-keys: ${{ runner.os }}-sonar
+       - name: Cache Maven packages
+         uses: actions/cache@v1
+         with:
+           path: ~/.m2
+           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+           restore-keys: ${{ runner.os }}-m2
+       - name: Build and analyze
+         env:
+           GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}  # Needed to get PR information, if any
+           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_emailValidationService
+       - name: Versions checker dependencies
+         run: mvn -B -P java11 versions:display-dependency-updates versions:display-property-updates
+
+       - name: Versions checker plugins
+         run: mvn -B -P java11 versions:display-plugin-updates
+       - name: Versions checker plugins
+         run: mvn -B -P java11 versions:display-plugin-updates
