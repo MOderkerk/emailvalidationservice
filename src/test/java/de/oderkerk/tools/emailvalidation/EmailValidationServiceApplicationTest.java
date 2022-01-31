@@ -22,6 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class EmailValidationServiceApplicationTest {
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
     }
 }

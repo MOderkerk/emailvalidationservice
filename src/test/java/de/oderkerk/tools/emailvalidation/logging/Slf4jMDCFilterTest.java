@@ -62,7 +62,7 @@ class Slf4jMDCFilterTest {
     }
 
     @Test
-    public void shouldContainCorrelationId() throws Exception {
+    void shouldContainCorrelationId() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/test")
                         .accept(MediaType.APPLICATION_JSON))
@@ -72,7 +72,7 @@ class Slf4jMDCFilterTest {
     }
 
     @Test
-    public void shouldContainGivenCorrelationId() throws Exception {
+    void shouldContainGivenCorrelationId() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/test")
                         .header(Slf4jMDCFilterConfiguration.DEFAULT_RESPONSE_TOKEN_HEADER, "123")
@@ -83,7 +83,7 @@ class Slf4jMDCFilterTest {
     }
 
     @Test
-    public void shouldContainClientIP() throws Exception {
+    void shouldContainClientIP() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                         .get("/test")
                         .header("X-Forwarded-For", "127.0.0.1")
@@ -93,7 +93,7 @@ class Slf4jMDCFilterTest {
     }
 
     @Test
-    public void shouldProtected() {
+    void shouldProtected() {
         assertFalse(new Slf4jMDCFilter().shouldNotFilterErrorDispatch());
     }
 

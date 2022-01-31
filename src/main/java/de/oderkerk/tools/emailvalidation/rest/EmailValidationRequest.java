@@ -19,6 +19,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * Structure of the request for validating an email address
  *
@@ -27,7 +29,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class EmailValidationRequest {
+public class EmailValidationRequest implements Serializable {
 
     /**
      * address to be validated

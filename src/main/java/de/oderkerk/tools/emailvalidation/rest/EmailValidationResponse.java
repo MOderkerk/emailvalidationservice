@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.MDC;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class EmailValidationResponse {
+public class EmailValidationResponse implements Serializable {
 
     /**
      * Create a new response

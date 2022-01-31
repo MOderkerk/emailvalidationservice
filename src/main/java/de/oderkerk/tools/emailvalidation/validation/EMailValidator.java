@@ -86,8 +86,8 @@ public class EMailValidator implements Serializable {
      * @param parts Separated information of the email address
      */
     protected void splitDomainTld(String[] parts) {
-        String domain = parts[1];
-        String[] domainTldSplit = domain.split("\\.");
+        String domainName = parts[1];
+        String[] domainTldSplit = domainName.split("\\.");
         switch (domainTldSplit.length) {
             case 1:
                 if (parts[1].endsWith(".")) {
