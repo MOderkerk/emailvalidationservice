@@ -35,4 +35,10 @@ public class EmailValidationRequest {
     @Schema(name = "emailAddress", required = true, description = "Email address to be validated")
     private String emailAddress;
 
+    @Schema(name = "oneTimeMailAllowed", required = true, description = "if true one time email addresses are allowed and not checked. If false it is checked against a blacklist of know one time mail domains")
+    private boolean oneTimeMailAllowed;
+
+    @Schema(name = "tryDNSCheck", required = true, description = "if true , the system will check whether the given domain exists")
+    private boolean tryDNSCheck;
+
 }

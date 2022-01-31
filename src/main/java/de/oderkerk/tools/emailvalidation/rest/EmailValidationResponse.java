@@ -38,9 +38,9 @@ public class EmailValidationResponse {
     /**
      * Create a new response
      */
-
     public EmailValidationResponse() {
         validationErrorList = new ArrayList<>();
+        this.emailIsValid = true;
         this.uniqueID = MDC.get(Slf4jMDCFilterConfiguration.DEFAULT_MDC_UUID_TOKEN_KEY);
     }
 
