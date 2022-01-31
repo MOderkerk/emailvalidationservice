@@ -17,7 +17,6 @@ package de.oderkerk.tools.emailvalidation.rest;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -26,7 +25,6 @@ import java.io.Serializable;
  */
 @Schema(name = "ValidationError", description = "Detail information of validation errors")
 @Getter
-@Setter
 public class ValidationError implements Serializable {
 
     /**
