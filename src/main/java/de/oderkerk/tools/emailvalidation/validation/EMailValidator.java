@@ -17,6 +17,7 @@ package de.oderkerk.tools.emailvalidation.validation;
 
 import de.oderkerk.tools.emailvalidation.rest.EmailValidationResponse;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -28,6 +29,7 @@ import java.io.Serializable;
  */
 @Component
 @Getter
+@Slf4j
 public class EMailValidator implements Serializable {
 
     /**
@@ -63,8 +65,8 @@ public class EMailValidator implements Serializable {
      * @return Result of the validation and if errors have been occurred with the list of errors
      */
     public EmailValidationResponse validateEMailAddress(String emailAddress, boolean oneTimeMailAllowed, boolean tryDNSCheck) {
+        log.debug("Starting validation of {} with onetimemailcheck ={} and dnscheck={}", emailAddress, oneTimeMailAllowed, tryDNSCheck);
         splitEMailAddress(emailAddress);
-
 
 
         return null;
@@ -98,25 +100,27 @@ public class EMailValidator implements Serializable {
      * @param parts Separated information of the email address
      */
     protected void splitDomainTld(String[] parts) {
+        log.debug("Split domain into domain and TLD");
         String domainName = parts[1];
-        String[] domainTldSplit = domainName.split("\\.");
-        switch (domainTldSplit.length) {
-            case 1:
-                if (parts[1].endsWith(".")) {
-                    emailValidationResponse.addErrorToResponse(20003, "Domain of email address end with a dot. Tld missing");
-                } else {
-                    emailValidationResponse.addErrorToResponse(20004, "Domain of email address has no dot with in it. ");
-                }
-                break;
-            case 2:
+        int posOfFirstDot = domainName.indexOf('.');
+        if (posOfFirstDot == -1) {
+            emailValidationResponse.addErrorToResponse(20004, "Domain of email address has no dot with in it. ");
+        } else {
+            String[] domainTldSplit = new String[2];
+            domainTldSplit[0] = domainName.substring(0, posOfFirstDot);
+            domainTldSplit[1] = domainName.substring(posOfFirstDot + 1);
+            log.debug("splitted domain : {} TLD: {}", domainTldSplit[0], domainTldSplit[1]);
+
+
+            if (parts[1].endsWith(".")) {
+                emailValidationResponse.addErrorToResponse(20003, "Domain of email address end with a dot. Tld missing");
+            } else {
                 this.domain = domainTldSplit[0];
                 this.tld = domainTldSplit[1];
-                break;
-            default:
-                emailValidationResponse.addErrorToResponse(20002, "Domain of email address has multiple dots.  ");
-                break;
+            }
         }
     }
-
-
 }
+
+
+
