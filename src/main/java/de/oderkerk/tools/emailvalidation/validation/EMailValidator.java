@@ -16,7 +16,6 @@
 package de.oderkerk.tools.emailvalidation.validation;
 
 import de.oderkerk.tools.emailvalidation.rest.EmailValidationResponse;
-import de.oderkerk.tools.emailvalidation.rest.ValidationError;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
@@ -31,9 +30,21 @@ import java.io.Serializable;
 @Getter
 public class EMailValidator implements Serializable {
 
+    /**
+     * recipient part of email
+     */
     private String recipient;
+    /**
+     * domain part of email
+     */
     private String domain;
+    /**
+     * top level Domain of email
+     */
     private String tld;
+    /**
+     * Response to be sent to the user
+     */
     private EmailValidationResponse emailValidationResponse;
 
     /**
@@ -55,6 +66,7 @@ public class EMailValidator implements Serializable {
         splitEMailAddress(emailAddress);
 
 
+
         return null;
     }
 
@@ -68,14 +80,14 @@ public class EMailValidator implements Serializable {
         String[] parts = emailAddress.split("@");
         switch (parts.length) {
             case 1:
-                addErrorToResponse(20001, "Email address has no @ sign.");
+                emailValidationResponse.addErrorToResponse(20001, "Email address has no @ sign.");
                 break;
             case 2:
                 recipient = parts[0];
                 splitDomainTld(parts);
                 break;
             default:
-                addErrorToResponse(20002, "Email address has multiple @ signs.");
+                emailValidationResponse.addErrorToResponse(20002, "Email address has multiple @ signs.");
         }
 
     }
@@ -91,9 +103,9 @@ public class EMailValidator implements Serializable {
         switch (domainTldSplit.length) {
             case 1:
                 if (parts[1].endsWith(".")) {
-                    addErrorToResponse(20003, "Domain of email address end with a dot. Tld missing");
+                    emailValidationResponse.addErrorToResponse(20003, "Domain of email address end with a dot. Tld missing");
                 } else {
-                    addErrorToResponse(20004, "Domain of email address has no dot with in it. ");
+                    emailValidationResponse.addErrorToResponse(20004, "Domain of email address has no dot with in it. ");
                 }
                 break;
             case 2:
@@ -101,19 +113,10 @@ public class EMailValidator implements Serializable {
                 this.tld = domainTldSplit[1];
                 break;
             default:
-                addErrorToResponse(20002, "Domain of email address has multiple dots.  ");
+                emailValidationResponse.addErrorToResponse(20002, "Domain of email address has multiple dots.  ");
                 break;
         }
     }
 
-    /**
-     * Method to add an error to the response
-     *
-     * @param errorNo  number of the error
-     * @param errorMsg Additional error informations
-     */
-    private void addErrorToResponse(int errorNo, String errorMsg) {
-        emailValidationResponse.setEmailIsValid(false);
-        emailValidationResponse.getValidationErrorList().add(new ValidationError(errorNo, errorMsg));
-    }
+
 }

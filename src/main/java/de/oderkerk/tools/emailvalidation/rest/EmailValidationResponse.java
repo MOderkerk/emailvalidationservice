@@ -62,4 +62,16 @@ public class EmailValidationResponse implements Serializable {
     private List<ValidationError> validationErrorList;
 
 
+    /**
+     * Method to add an error to the response
+     *
+     * @param errorNo  number of the error
+     * @param errorMsg Additional error informations
+     */
+    public void addErrorToResponse(int errorNo, String errorMsg) {
+        this.setEmailIsValid(false);
+        this.getValidationErrorList().add(new ValidationError(errorNo, errorMsg));
+    }
+
+
 }
