@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
 @Slf4j
 public class IllegalCharacterIdentification {
 
+    private IllegalCharacterIdentification() {
+    }
     /**
      * Illegal chars used in recipient
      */
