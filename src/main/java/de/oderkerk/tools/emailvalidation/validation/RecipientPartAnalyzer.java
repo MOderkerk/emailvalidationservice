@@ -16,11 +16,16 @@
 package de.oderkerk.tools.emailvalidation.validation;
 
 import de.oderkerk.tools.emailvalidation.rest.EmailValidationResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Analyzing the recipient part of an email
  */
+@Slf4j
 public class RecipientPartAnalyzer {
+    /**
+     * Response to add errors if found
+     */
     EmailValidationResponse emailValidationResponse;
 
     /**
@@ -39,8 +44,14 @@ public class RecipientPartAnalyzer {
      * @return EmailValidationResponse with error list within it
      */
     public EmailValidationResponse analyze(String recipient) {
+        log.debug("Analyze recipient : {}", recipient);
         if (recipient.trim().length() > 64)
             emailValidationResponse.addErrorToResponse(20005, "Recipient part is too long. Length: " + recipient.trim().length());
+        try {
+            IllegalCharacterIdentification.checkString(recipient, CheckRuleEnum.RECIPIENT);
+        } catch (IllegalArgumentException ex) {
+            emailValidationResponse.addErrorToResponse(20008, ex.getMessage());
+        }
         return this.emailValidationResponse;
     }
 }

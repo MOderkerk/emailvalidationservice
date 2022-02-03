@@ -45,6 +45,8 @@ class EMailValidatorTest {
 
     @Test
     void validateEMailAddress() {
+        //Comming soon
+        assertTrue(true);
     }
 
     @Test
@@ -101,5 +103,19 @@ class EMailValidatorTest {
         assertEquals(1, emailValidationResponse.getValidationErrorList().size(), "One error should be in the error list");
         assertEquals(20003, emailValidationResponse.getValidationErrorList().get(0).getErrorNo(), "Error number must be 20003");
         assertEquals("Domain of email address end with a dot. Tld missing", emailValidationResponse.getValidationErrorList().get(0).getErrorText(), "Error text must be \"Domain of email address end with a dot. Tld missing\"");
+    }
+
+    @Test
+    void testMailOk() {
+        eMailValidator.validateEMailAddress("test@oderkerk.de", false, false);
+        EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
+        assertTrue(emailValidationResponse.isEmailIsValid(), "Email should be valid ");
+    }
+
+    @Test
+    void testMailNOk() {
+        eMailValidator.validateEMailAddress("test@od|erkerk.de", false, false);
+        EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
+        assertFalse(emailValidationResponse.isEmailIsValid(), "Email should be invalid ");
     }
 }

@@ -23,14 +23,19 @@ import java.util.regex.Pattern;
 @Slf4j
 public class IllegalCharacterIdentification {
 
+    public static final String ILLEGAL_CHARACTERS_FOUND = "Illegal characters found";
+
     private IllegalCharacterIdentification() {
     }
+
     /**
      * Illegal chars used in recipient
      */
     private static final String REGEX_RECIPIENT = "\\b[|']";
     private static final String REGEX_TLD = "[^A-Za-z0-9]";
     private static final String REGEX_DOMAIN = "\\b[|']";
+    private static final String REGEX_SPECIAL_START = "^[!\"§$%&\\/()=?`#~+*\\[\\]]";
+    private static final String REGEX_SPECIAL_END = "[!\"§$%&\\/()=?`#~+*\\[\\]]$";
 
     /**
      * Check the given String gainst the given rule
@@ -53,10 +58,19 @@ public class IllegalCharacterIdentification {
             default:
                 throw new IllegalArgumentException("Invalid checkrule selected");
         }
-        final Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-        final Matcher matcher = pattern.matcher(input);
-        if (matcher.find()) throw new IllegalArgumentException("Illegal characters found");
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
 
+        pattern = Pattern.compile(REGEX_SPECIAL_START, Pattern.CASE_INSENSITIVE);
+        matcher = pattern.matcher(input);
+        if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
+
+        if (rule.equals(CheckRuleEnum.TLD)) {
+            pattern = Pattern.compile(REGEX_SPECIAL_END, Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(input);
+            if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
+        }
 
     }
 }

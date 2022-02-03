@@ -32,6 +32,7 @@ import java.io.Serializable;
 @Slf4j
 public class EMailValidator implements Serializable {
 
+
     /**
      * recipient part of email
      */
@@ -67,10 +68,15 @@ public class EMailValidator implements Serializable {
     public EmailValidationResponse validateEMailAddress(String emailAddress, boolean oneTimeMailAllowed, boolean tryDNSCheck) {
         log.debug("Starting validation of {} with onetimemailcheck ={} and dnscheck={}", emailAddress, oneTimeMailAllowed, tryDNSCheck);
         splitEMailAddress(emailAddress);
-
+        log.debug("Result of spilt : Recipient={} Domain={}, TLD={}", getRecipient(), getDomain(), getTld());
+        if (this.emailValidationResponse.isEmailIsValid()) {
+            this.emailValidationResponse = new RecipientPartAnalyzer(emailValidationResponse).analyze(getRecipient());
+            this.emailValidationResponse = new DomainPartAnalyzer(emailValidationResponse).analyze(getDomain());
+        }
 
         return null;
     }
+
 
     /**
      * tries to split the given email in recipient, domain and tld
@@ -78,7 +84,7 @@ public class EMailValidator implements Serializable {
      * @param emailAddress to be splitted
      */
     protected void splitEMailAddress(String emailAddress) {
-
+        log.debug("Start splitting email : {}", emailAddress);
         String[] parts = emailAddress.split("@");
         switch (parts.length) {
             case 1:

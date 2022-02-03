@@ -31,12 +31,28 @@ public class EmailValidationRestControllerAdvice {
      * Handle Illegal argument execptions thrown if the email in the request is missing
      *
      * @param iex        illegal argument exception
-     * @param webRequest webrequest of the api call
+     * @param webRequest webRequest of the api call
      * @return ResponseEntity
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<EmailValidationResponse> handleIllegalArgumentException(IllegalArgumentException iex, WebRequest webRequest) {
         ValidationError validationError = new ValidationError(100001, iex.getMessage());
+        EmailValidationResponse emailValidationResponse = new EmailValidationResponse();
+        emailValidationResponse.setEmailIsValid(false);
+        emailValidationResponse.getValidationErrorList().add(validationError);
+        return new ResponseEntity<>(emailValidationResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Index out of Bounds exception thrown during validation or if an error occurred. In all cases it is an programming error
+     *
+     * @param iex        Index out Of Bounds Exception
+     * @param webRequest webRequest of the api call
+     * @return ResponseEntity
+     */
+    @ExceptionHandler(IndexOutOfBoundsException.class)
+    public ResponseEntity<EmailValidationResponse> handleIndexOutOfBoundsException(IndexOutOfBoundsException iex, WebRequest webRequest) {
+        ValidationError validationError = new ValidationError(999999, iex.getMessage());
         EmailValidationResponse emailValidationResponse = new EmailValidationResponse();
         emailValidationResponse.setEmailIsValid(false);
         emailValidationResponse.getValidationErrorList().add(validationError);

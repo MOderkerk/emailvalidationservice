@@ -18,7 +18,10 @@ package de.oderkerk.tools.emailvalidation.rest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class EmailValidationRestControllerAdviceTest {
 
@@ -26,8 +29,28 @@ class EmailValidationRestControllerAdviceTest {
     void testIllegalArgumentException() {
         EmailValidationRestControllerAdvice emailValidationRestControllerAdvice = new EmailValidationRestControllerAdvice();
         ResponseEntity<EmailValidationResponse> result = emailValidationRestControllerAdvice.handleIllegalArgumentException(new IllegalArgumentException("Test"), null);
-        assertEquals("Test", result.getBody().getValidationErrorList().get(0).getErrorText());
-        assertEquals(100001, result.getBody().getValidationErrorList().get(0).getErrorNo());
+        if (!Objects.isNull(result.getBody())) {
+            if (!result.getBody().isEmailIsValid()) {
+                assertEquals("Test", result.getBody().getValidationErrorList().get(0).getErrorText());
+                assertEquals(100001, result.getBody().getValidationErrorList().get(0).getErrorNo());
+            } else {
+                fail();
+            }
+        }
+    }
+
+    @Test
+    void testIndexOutoFbOUNDSException() {
+        EmailValidationRestControllerAdvice emailValidationRestControllerAdvice = new EmailValidationRestControllerAdvice();
+        ResponseEntity<EmailValidationResponse> result = emailValidationRestControllerAdvice.handleIndexOutOfBoundsException(new IndexOutOfBoundsException("Test"), null);
+        if (!Objects.isNull(result.getBody())) {
+            if (!result.getBody().isEmailIsValid()) {
+                assertEquals("Test", result.getBody().getValidationErrorList().get(0).getErrorText());
+                assertEquals(999999, result.getBody().getValidationErrorList().get(0).getErrorNo());
+            } else {
+                fail();
+            }
+        }
     }
 
 }

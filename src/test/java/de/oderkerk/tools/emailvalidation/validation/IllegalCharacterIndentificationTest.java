@@ -33,6 +33,11 @@ class IllegalCharacterIdentificationTest {
     }
 
     @Test
+    void checkRecipientIllegalStart() {
+        assertThrows(IllegalArgumentException.class, () -> IllegalCharacterIdentification.checkString("[test", CheckRuleEnum.RECIPIENT));
+    }
+
+    @Test
     void checkRecipientOk() {
         assertDoesNotThrow(() -> IllegalCharacterIdentification.checkString("test", CheckRuleEnum.RECIPIENT));
     }
@@ -45,6 +50,11 @@ class IllegalCharacterIdentificationTest {
     @Test
     void checkTldNOK() {
         assertThrows(IllegalArgumentException.class, () -> IllegalCharacterIdentification.checkString("tes|t", CheckRuleEnum.TLD));
+    }
+
+    @Test
+    void checkTldEndSpecial() {
+        assertThrows(IllegalArgumentException.class, () -> IllegalCharacterIdentification.checkString("test]#", CheckRuleEnum.TLD));
     }
 
 

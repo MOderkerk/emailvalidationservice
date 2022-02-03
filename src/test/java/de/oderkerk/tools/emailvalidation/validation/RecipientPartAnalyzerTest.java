@@ -47,7 +47,7 @@ class RecipientPartAnalyzerTest {
 
     @Test
     void analyzeLengthToLong() {
-        String input = padLeftChars("Test", 66);
+        String input = TestDataHelper.padLeftChars("Test", 66);
         EmailValidationResponse emailValidationResponse = recipientPartAnalyzer.analyze(input);
         assertFalse(emailValidationResponse.isEmailIsValid());
         assertEquals(1, emailValidationResponse.getValidationErrorList().size(), "One error should be in the error list");
@@ -56,16 +56,5 @@ class RecipientPartAnalyzerTest {
 
     }
 
-    String padLeftChars(String inputString, int length) {
-        if (inputString.length() >= length) {
-            return inputString;
-        }
-        StringBuilder sb = new StringBuilder();
-        while (sb.length() < length - inputString.length()) {
-            sb.append('A');
-        }
-        sb.append(inputString);
 
-        return sb.toString();
-    }
 }

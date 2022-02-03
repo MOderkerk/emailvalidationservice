@@ -15,5 +15,35 @@
 
 package de.oderkerk.tools.emailvalidation.validation;
 
+import de.oderkerk.tools.emailvalidation.rest.EmailValidationResponse;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Analyzing the domain part of an email
+ */
+@Slf4j
 public class DomainPartAnalyzer {
+    EmailValidationResponse emailValidationResponse;
+
+    public DomainPartAnalyzer(EmailValidationResponse emailValidationResponse) {
+        this.emailValidationResponse = emailValidationResponse;
+    }
+
+    /**
+     * Analyse the given recipient if an error is found it will be added to the response object
+     *
+     * @param domain String to be analyzed
+     * @return EmailValidationResponse with error list within it
+     */
+    public EmailValidationResponse analyze(String domain) {
+        log.debug("Analyze recipient : {}", domain);
+        if (domain.trim().length() > 253)
+            emailValidationResponse.addErrorToResponse(20010, "Domain part is too long. Length: " + domain.trim().length());
+        try {
+            IllegalCharacterIdentification.checkString(domain, CheckRuleEnum.DOMAIN);
+        } catch (IllegalArgumentException ex) {
+            emailValidationResponse.addErrorToResponse(20011, ex.getMessage());
+        }
+        return this.emailValidationResponse;
+    }
 }
