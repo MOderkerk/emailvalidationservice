@@ -11,7 +11,7 @@ on:
 jobs:
 
   build:
-
+    needs: depchecktest
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -71,9 +71,11 @@ jobs:
          run: mvn -B -P java11 versions:display-plugin-updates
 
   depchecktest:
-    needs: quality
+
     runs-on: ubuntu-latest
     name: depecheck_test
+    env:
+      JAVA_HOME: /usr/local/openjdk-11
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v1
