@@ -18,6 +18,7 @@ package de.oderkerk.tools.emailvalidation.rest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,6 +44,20 @@ class EmailValidationRestControllerAdviceTest {
     void testIndexOutoFbOUNDSException() {
         EmailValidationRestControllerAdvice emailValidationRestControllerAdvice = new EmailValidationRestControllerAdvice();
         ResponseEntity<EmailValidationResponse> result = emailValidationRestControllerAdvice.handleIndexOutOfBoundsException(new IndexOutOfBoundsException("Test"), null);
+        if (!Objects.isNull(result.getBody())) {
+            if (!result.getBody().isEmailIsValid()) {
+                assertEquals("Test", result.getBody().getValidationErrorList().get(0).getErrorText());
+                assertEquals(999999, result.getBody().getValidationErrorList().get(0).getErrorNo());
+            } else {
+                fail();
+            }
+        }
+    }
+
+    @Test
+    void testIOException() {
+        EmailValidationRestControllerAdvice emailValidationRestControllerAdvice = new EmailValidationRestControllerAdvice();
+        ResponseEntity<EmailValidationResponse> result = emailValidationRestControllerAdvice.handleBlacklistIOException(new IOException("Test"), null);
         if (!Objects.isNull(result.getBody())) {
             if (!result.getBody().isEmailIsValid()) {
                 assertEquals("Test", result.getBody().getValidationErrorList().get(0).getErrorText());
