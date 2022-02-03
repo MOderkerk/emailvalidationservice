@@ -20,6 +20,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -106,16 +108,37 @@ class EMailValidatorTest {
     }
 
     @Test
-    void testMailOk() {
+    void testMailOk() throws IOException {
         eMailValidator.validateEMailAddress("test@oderkerk.de", false, false);
         EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
         assertTrue(emailValidationResponse.isEmailIsValid(), "Email should be valid ");
     }
 
     @Test
-    void testMailNOk() {
+    void testMailOkWithoutBlacklist() throws IOException {
+        eMailValidator.validateEMailAddress("test@oderkerk.de", true, false);
+        EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
+        assertTrue(emailValidationResponse.isEmailIsValid(), "Email should be valid ");
+    }
+
+    @Test
+    void testMailNOk() throws IOException {
         eMailValidator.validateEMailAddress("test@od|erkerk.de", false, false);
         EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
         assertFalse(emailValidationResponse.isEmailIsValid(), "Email should be invalid ");
+    }
+
+    @Test
+    void testMailBlacklisted() throws IOException {
+        eMailValidator.validateEMailAddress("test@thisurl.website", false, false);
+        EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
+        assertFalse(emailValidationResponse.isEmailIsValid(), "Email should be blacklisted ");
+    }
+
+    @Test
+    void testMailOnetimeMailButCheckDeaktivated() throws IOException {
+        eMailValidator.validateEMailAddress("test@thisurl.website", true, false);
+        EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
+        assertTrue(emailValidationResponse.isEmailIsValid(), "Blacklist should not be checked");
     }
 }

@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -46,6 +47,10 @@ public class EMailValidator implements Serializable {
      */
     private String tld;
     /**
+     * domain adn toplevel
+     */
+    private String domainWithTld;
+    /**
      * Response to be sent to the user
      */
     private EmailValidationResponse emailValidationResponse;
@@ -64,14 +69,18 @@ public class EMailValidator implements Serializable {
      * @param oneTimeMailAllowed flag for performing the check against the known list of one time mail domains
      * @param tryDNSCheck        flag for performing  a dns lookup of the domain
      * @return Result of the validation and if errors have been occurred with the list of errors
+     * @throws IOException blacklist not found
      */
-    public EmailValidationResponse validateEMailAddress(String emailAddress, boolean oneTimeMailAllowed, boolean tryDNSCheck) {
+    public EmailValidationResponse validateEMailAddress(String emailAddress, boolean oneTimeMailAllowed, boolean tryDNSCheck) throws IOException {
         log.debug("Starting validation of {} with onetimemailcheck ={} and dnscheck={}", emailAddress, oneTimeMailAllowed, tryDNSCheck);
         splitEMailAddress(emailAddress);
         log.debug("Result of spilt : Recipient={} Domain={}, TLD={}", getRecipient(), getDomain(), getTld());
         if (this.emailValidationResponse.isEmailIsValid()) {
             this.emailValidationResponse = new RecipientPartAnalyzer(emailValidationResponse).analyze(getRecipient());
             this.emailValidationResponse = new DomainPartAnalyzer(emailValidationResponse).analyze(getDomain());
+        }
+        if (!oneTimeMailAllowed && OnetimeMailChecker.isListedInBlacklist(domainWithTld)) {
+            this.emailValidationResponse.addErrorToResponse(200020, "EMail is a disposal or onetime mail and on the domain blacklist");
         }
 
         return null;
@@ -108,6 +117,7 @@ public class EMailValidator implements Serializable {
     protected void splitDomainTld(String[] parts) {
         log.debug("Split domain into domain and TLD");
         String domainName = parts[1];
+        domainWithTld = domainName;
         int posOfFirstDot = domainName.indexOf('.');
         if (posOfFirstDot == -1) {
             emailValidationResponse.addErrorToResponse(20004, "Domain of email address has no dot with in it. ");

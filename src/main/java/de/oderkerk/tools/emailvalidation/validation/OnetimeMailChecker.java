@@ -15,10 +15,47 @@
 
 package de.oderkerk.tools.emailvalidation.validation;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
 /**
  * Analyzer to check if a domain is for onetime disposal mails
  */
+@Slf4j
 public class OnetimeMailChecker {
+
+    private OnetimeMailChecker() {
+        //nothing to do
+    }
+
+    /**
+     * Blacklist for check
+     */
+    private static List<String> blacklist = new ArrayList<>();
+
+    /**
+     * Check if a domain is in the blacklist
+     *
+     * @param domain domain incl tdl to be checked
+     * @return true = blacklisted false = not blacklisted
+     * @throws IOException file not found
+     */
+    public static boolean isListedInBlacklist(String domain) throws IOException {
+        log.debug("Check {} if in blacklist", domain);
+        if (blacklist.isEmpty()) readBlacklist();
+        return blacklist.stream().anyMatch(Predicate.isEqual(domain));
+    }
+
+    private static void readBlacklist() throws IOException {
+        log.info("Blacklist is empty. Maybe first access. Let's load the actual blacklist");
+        BlacklistLoader blacklistLoader = new BlacklistLoader();
+        blacklist = blacklistLoader.readBlacklist();
+        log.info("{} entries loaded into blacklist", blacklist.size());
+    }
 
 
 }

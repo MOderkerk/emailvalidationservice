@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import java.io.IOException;
+
 /**
  * Error handling for invalid requests and exception handler
  */
@@ -58,4 +60,22 @@ public class EmailValidationRestControllerAdvice {
         emailValidationResponse.getValidationErrorList().add(validationError);
         return new ResponseEntity<>(emailValidationResponse, HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * Blacklistproblems IOException
+     *
+     * @param iex        Index out Of Bounds Exception
+     * @param webRequest webRequest of the api call
+     * @return ResponseEntity
+     */
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<EmailValidationResponse> handleBlacklistIOException(IOException iex, WebRequest webRequest) {
+        ValidationError validationError = new ValidationError(999999, iex.getMessage());
+        EmailValidationResponse emailValidationResponse = new EmailValidationResponse();
+        emailValidationResponse.setEmailIsValid(false);
+        emailValidationResponse.getValidationErrorList().add(validationError);
+        return new ResponseEntity<>(emailValidationResponse, HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+
 }

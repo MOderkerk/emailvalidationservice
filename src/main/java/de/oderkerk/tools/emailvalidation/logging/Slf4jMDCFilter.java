@@ -15,7 +15,6 @@
 
 package de.oderkerk.tools.emailvalidation.logging;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
@@ -34,7 +33,6 @@ import java.util.UUID;
  * <p>
  * see org.greeneyed.summer.config.Slf4jMDCFilterConfiguration
  **/
-@Data
 @EqualsAndHashCode(callSuper = false)
 @Component
 public class Slf4jMDCFilter extends OncePerRequestFilter {
