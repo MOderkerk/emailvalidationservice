@@ -251,4 +251,11 @@
         </profile>
 
     </profiles>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Githubpages</name>
+            <url>https://maven.pkg.github.com/moderkerk/EmailValidationService</url>
+        </repository>
+    </distributionManagement>
 </project>
