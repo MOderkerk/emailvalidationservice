@@ -55,3 +55,4 @@ jobs:
         with:
           # GitHub Token
           github-token: ${{ secrets.MY_GITHUBKEY }}
+          pull_number: ${{ github.event.number }}
