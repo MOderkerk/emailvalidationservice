@@ -26,7 +26,7 @@ jobs:
         run: mvn -B versions:set -DnewVersion=1.0.${{github.run_number}} --file pom.xml -P java${{ matrix.version }}
 
       - name: Build with Maven
-        run: mvn -B package  -DskipTests=true --file pom.xml -P java${{ matrix.version }}
+        run: mvn -B clean package  -DskipTests=true --file pom.xml -P java${{ matrix.version }}
 
       - name: Create a Release
         uses: elgohr/Github-Release-Action@master
