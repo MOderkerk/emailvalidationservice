@@ -27,18 +27,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml -P java${{ matrix.version }}
 
-
-  quality:
-    needs: build
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
@@ -60,3 +48,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_emailValidationService -Dsonar.qualitygate.wait=true
+      - name: Merge Pull Request
+        # You may pin to the exact commit or the version.
+        # uses: juliangruber/merge-pull-request-action@d407bf625e1ceb819fa7cc531929bd3bbe641698
+        uses: juliangruber/merge-pull-request-action@v1.0.0
+        with:
+          # GitHub Token
+          github-token: ${{ secrets.MY_GITHUBKEY }}
