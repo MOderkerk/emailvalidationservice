@@ -28,8 +28,10 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml -P java${{ matrix.version }}
 
-      - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy -P java${{ matrix.version }} -s $GITHUB_WORKSPACE/settings.xml -DskipTests=true
+      - name: Create a Release
+        uses: elgohr/Github-Release-Action@master
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY }}
+        with:
+          args: New Release
 
