@@ -3,16 +3,16 @@
 
 name: RELEASE
 
-on:
-  pull_request:
-    types: [ closed ]
+on:  
+  release:
+    types: [created]
     branches: [ master ]
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 11 , 16 ]
+        version: [ 11  ]
 
     steps:
       - uses: actions/checkout@v2
