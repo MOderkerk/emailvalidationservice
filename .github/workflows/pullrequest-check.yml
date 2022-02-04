@@ -47,7 +47,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_emailValidationService -Dsonar.qualitygate.wait=true -Dsonar.pullrequest.base=master -Dsonar.pullrequest.branch=development -Dsonar.pullrequest.key=${{github.event.number}}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_emailValidationService -Dsonar.qualitygate.wait=true -Dsonar.pullrequest.base=master -Dsonar.pullrequest.branch=development -Dsonar.pullrequest.key=${{github.event.number}} -Dsonar.pullrequest.provider=GitHub
       - name: Merge Pull Request
         # You may pin to the exact commit or the version.
         # uses: juliangruber/merge-pull-request-action@d407bf625e1ceb819fa7cc531929bd3bbe641698
