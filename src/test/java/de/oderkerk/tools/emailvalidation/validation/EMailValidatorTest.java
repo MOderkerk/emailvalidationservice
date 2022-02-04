@@ -108,37 +108,44 @@ class EMailValidatorTest {
     }
 
     @Test
-    void testMailOk() throws IOException {
+    void testMailOk() throws IOException, MXLookUpException {
         eMailValidator.validateEMailAddress("test@oderkerk.de", false, false);
         EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
         assertTrue(emailValidationResponse.isEmailIsValid(), "Email should be valid ");
     }
 
     @Test
-    void testMailOkWithoutBlacklist() throws IOException {
+    void testMailOkWithoutBlacklist() throws IOException, MXLookUpException {
         eMailValidator.validateEMailAddress("test@oderkerk.de", true, false);
         EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
         assertTrue(emailValidationResponse.isEmailIsValid(), "Email should be valid ");
     }
 
     @Test
-    void testMailNOk() throws IOException {
+    void testMailNOk() throws IOException, MXLookUpException {
         eMailValidator.validateEMailAddress("test@od|erkerk.de", false, false);
         EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
         assertFalse(emailValidationResponse.isEmailIsValid(), "Email should be invalid ");
     }
 
     @Test
-    void testMailBlacklisted() throws IOException {
+    void testMailBlacklisted() throws IOException, MXLookUpException {
         eMailValidator.validateEMailAddress("test@thisurl.website", false, false);
         EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
         assertFalse(emailValidationResponse.isEmailIsValid(), "Email should be blacklisted ");
     }
 
     @Test
-    void testMailOnetimeMailButCheckDeaktivated() throws IOException {
+    void testMailOnetimeMailButCheckDeaktivated() throws IOException, MXLookUpException {
         eMailValidator.validateEMailAddress("test@thisurl.website", true, false);
         EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
         assertTrue(emailValidationResponse.isEmailIsValid(), "Blacklist should not be checked");
+    }
+
+    @Test
+    void testMailOKWithDNSCheck() throws IOException, MXLookUpException {
+        eMailValidator.validateEMailAddress(VALID_EMAIL, false, true);
+        EmailValidationResponse emailValidationResponse = eMailValidator.getEmailValidationResponse();
+        assertTrue(emailValidationResponse.isEmailIsValid(), "Email should be valid ");
     }
 }

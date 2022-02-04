@@ -71,7 +71,7 @@ public class EMailValidator implements Serializable {
      * @return Result of the validation and if errors have been occurred with the list of errors
      * @throws IOException blacklist not found
      */
-    public EmailValidationResponse validateEMailAddress(String emailAddress, boolean oneTimeMailAllowed, boolean tryDNSCheck) throws IOException {
+    public EmailValidationResponse validateEMailAddress(String emailAddress, boolean oneTimeMailAllowed, boolean tryDNSCheck) throws IOException, MXLookUpException {
         log.debug("Starting validation of {} with onetimemailcheck ={} and dnscheck={}", emailAddress, oneTimeMailAllowed, tryDNSCheck);
         splitEMailAddress(emailAddress);
         log.debug("Result of spilt : Recipient={} Domain={}, TLD={}", getRecipient(), getDomain(), getTld());
@@ -82,8 +82,17 @@ public class EMailValidator implements Serializable {
         if (!oneTimeMailAllowed && OnetimeMailChecker.isListedInBlacklist(domainWithTld)) {
             this.emailValidationResponse.addErrorToResponse(200020, "EMail is a disposal or onetime mail and on the domain blacklist");
         }
-
-        return null;
+        if (tryDNSCheck) {
+            try {
+                DNSServerLookup lookup = new DNSServerLookup();
+                lookup.lookupMX(domainWithTld);
+            } catch (MXLookUpException ex) {
+                if ("Domain not found".equals(ex.getMessage()))
+                    this.emailValidationResponse.addErrorToResponse(200022, ex.toString());
+                else throw ex;
+            }
+        }
+        return this.emailValidationResponse;
     }
 
 

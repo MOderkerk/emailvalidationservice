@@ -15,11 +15,15 @@
 
 package de.oderkerk.tools.emailvalidation.rest;
 
+import de.oderkerk.tools.emailvalidation.validation.MXLookUpException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -53,12 +57,12 @@ class EmailValidationRestControllerTest {
     }
 
     @Test
-    void validateEMailAddressOK() {
+    void validateEMailAddressOK() throws MXLookUpException, IOException {
         EmailValidationRestController emailValidationRestController = new EmailValidationRestController();
         EmailValidationRequest emailValidationRequest = new EmailValidationRequest();
         emailValidationRequest.setEmailAddress("test@example.org");
         ResponseEntity<EmailValidationResponse> result = emailValidationRestController.validateEMailAddress(emailValidationRequest);
-        assertTrue(result.getBody().isEmailIsValid());
+        assertTrue(Objects.requireNonNull(result.getBody()).isEmailIsValid());
 
 
     }

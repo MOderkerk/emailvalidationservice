@@ -38,6 +38,12 @@ import java.util.List;
 @ToString
 public class EmailValidationResponse implements Serializable {
 
+    public EmailValidationResponse(String uniqueID, boolean emailIsValid, List<ValidationError> validationErrorList) {
+        this.uniqueID = uniqueID;
+        this.emailIsValid = emailIsValid;
+        this.validationErrorList = validationErrorList;
+    }
+
     /**
      * Create a new response
      */

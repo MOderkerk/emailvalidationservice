@@ -15,6 +15,8 @@
 
 package de.oderkerk.tools.emailvalidation.rest;
 
+import de.oderkerk.tools.emailvalidation.validation.EMailValidator;
+import de.oderkerk.tools.emailvalidation.validation.MXLookUpException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -41,11 +44,12 @@ public class EmailValidationRestController implements Serializable {
             @ApiResponse(responseCode = "200", description = "EMail Address has been checked and the result of the validation has been send in the response")})
     @Operation(summary = "Validate email address", description = "Function to perform a validation of a email address ")
     @PostMapping(path = "validate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EmailValidationResponse> validateEMailAddress(@RequestBody EmailValidationRequest emailValidationRequest) {
+    public ResponseEntity<EmailValidationResponse> validateEMailAddress(@RequestBody EmailValidationRequest emailValidationRequest) throws MXLookUpException, IOException {
+        log.debug("Starting validation for {}", emailValidationRequest.toString());
         checkRequestData(emailValidationRequest);
-        EmailValidationResponse emailValidationResponse = new EmailValidationResponse();
-
-        emailValidationResponse.setEmailIsValid(true);
+        EMailValidator eMailValidator = new EMailValidator();
+        EmailValidationResponse emailValidationResponse = eMailValidator.validateEMailAddress(emailValidationRequest.getEmailAddress(), emailValidationRequest.isOneTimeMailAllowed(), emailValidationRequest.isTryDNSCheck());
+        log.debug("Result of Validation of email {} : {}", emailValidationRequest.getEmailAddress(), emailValidationResponse.toString());
         return new ResponseEntity<>(emailValidationResponse, HttpStatus.OK);
     }
 
