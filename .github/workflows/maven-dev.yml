@@ -67,10 +67,27 @@ jobs:
          run: mvn -B -P java11 versions:display-plugin-updates
        - name: Versions checker plugins
          run: mvn -B -P java11 versions:display-plugin-updates
-       
-       - name: Create PR
-         uses: funivan/github-autopr@0.2
-         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+       - name: Changelog
+         uses: glennawatson/ChangeLog@v1
+         id: changelog
+         
+       - name: Create Pull Request
+         id: cpr
+         uses: peter-evans/create-pull-request@v3
+         with:
+          token: ${{ secrets.MY_GITHUBKEY }}
+          commit-message: Update report
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: master
+          delete-branch: false
+          title: 'Automatic Pull Request'
+          body: |
+             ${{ steps.Changelog.outputs.changelog }}
+          labels: |
+                automated pr
+          draft: false
 
 
