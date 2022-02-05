@@ -16,17 +16,17 @@
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
-    <servers>
-        <server>
-            <id>github</id>
-            <username>${secrets.MYUSER}</username>
-            <password>${secrets.MYTOKEN}</password>
-        </server>
+   <servers>
+       <server>
+        <id>github</id>
+         <username>${{secrets.MYUSER}}</username>
+         <password>${{secrets.MYPASS}}</password>
+    </server>
         <server>
             <id>gpg.passphrase</id>
             <passphrase>${env.GPG_PASSPHRASE}</passphrase>
         </server>
-    </servers>
+    </servers> 
     <activeProfiles>
         <activeProfile>github</activeProfile>
     </activeProfiles>
@@ -38,7 +38,7 @@
                 <repository>
                     <id>github</id>
                     <name>GitHub OWNER Apache Maven Packages</name>
-                    <url>https://maven.pkg.github.com/moderkerk/EmailValidationService</url>
+                    <url>https://maven.pkg.github.com/MOderkerk/emailvalidationservice</url>
                 </repository>
             </repositories>
         </profile>
