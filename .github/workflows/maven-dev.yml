@@ -88,6 +88,6 @@ jobs:
        - name: Create PR    
          uses: "smartinspereira/auto-create-pr-action@master" 
          with:
-          secrets:  ${{ secrets.GITHUB_TOKEN }}
+          secrets:  ${{ secrets.MY_GITHUBKEY }}
          env: 
             PULL_REQUEST_BODY: ${{steps.Changelog.outputs.changelog}}   
