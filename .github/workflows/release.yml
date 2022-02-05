@@ -56,10 +56,7 @@ jobs:
 
             {range}
 
-      - name: Release the package
-        run: mvn release:prepare release:perform -B -s settings.xml -DreleaseVersion=1.0.${{github.run_number}}
+      - name: Publish to GitHub Packages Apache Maven
+        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml -DskipTests=true
         env:
-          CI_DEPLOY_USERNAME: ${{ secrets.MY_USERNAME }}
-          CI_DEPLOY_PASSWORD: ${{ secrets.DEPLOYMENT }}
-          GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.DEPLOYMENT }}
