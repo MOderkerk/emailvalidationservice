@@ -53,6 +53,7 @@
     <scm>
         <url>https://github.com/MOderkerk/EmailValidationService/</url>
         <connection>scm:git:https://github.com/MOderkerk/EmailValidationService.git</connection>
+        <developerConnection>scm:git:https://github.com/MOderkerk/EmailValidationService.git</developerConnection>
     </scm>
     <dependencies>
         <dependency>
