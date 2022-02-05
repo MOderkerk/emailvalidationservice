@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.oderkerk.tools</groupId>
-    <artifactId>emailvalidationService</artifactId>
+    <artifactId>emailvalidation</artifactId>
     <version>1.0.0</version>
 
     <parent>
@@ -214,7 +214,7 @@
                 <maven.compiler.target>11</maven.compiler.target>
             </properties>
             <build>
-                <finalName>odinsEmailValidationV11</finalName>
+                <finalName>emailvalidationservice</finalName>
             </build>
         </profile>
 
@@ -225,7 +225,7 @@
                 <maven.compiler.target>16</maven.compiler.target>
             </properties>
             <build>
-                <finalName>odinsEmailValidationV16</finalName>
+                <finalName>emailvalidationservicev16</finalName>
             </build>
         </profile>
         <profile>
@@ -235,7 +235,7 @@
                 <maven.compiler.target>11</maven.compiler.target>
             </properties>
             <build>
-                <finalName>odinsemailvalidation</finalName>
+                <finalName>emailvalidationservice</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.owasp</groupId>
@@ -261,7 +261,7 @@
         <repository>
             <id>github</id>
             <name>Githubpages</name>
-            <url>https://maven.pkg.github.com/moderkerk/EmailValidationService</url>
+            <url>https://maven.pkg.github.com/MOderkerk/emailvalidationservice</url>
         </repository>
     </distributionManagement>
 </project>
