@@ -27,7 +27,7 @@ jobs:
       - name: enable automerge    
         uses: hmarr/auto-approve-action@v2
         with:
-         github-token: ${{ secrets.MY_GITHUBKEY }}
+         github-token: ${{ secrets.GITHUB_TOKEN }}
          pull-request-number: ${{ github.event.inputs.pullRequestNumber }} 
          
       - name: Build with Maven
