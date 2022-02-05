@@ -235,7 +235,7 @@
                 <maven.compiler.target>11</maven.compiler.target>
             </properties>
             <build>
-                <finalName>odinsEmailValidation</finalName>
+                <finalName>odinsemailvalidation</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.owasp</groupId>
