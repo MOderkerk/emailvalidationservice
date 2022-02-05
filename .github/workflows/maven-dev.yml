@@ -67,5 +67,10 @@ jobs:
          run: mvn -B -P java11 versions:display-plugin-updates
        - name: Versions checker plugins
          run: mvn -B -P java11 versions:display-plugin-updates
+       
+       - name: Create PR
+         uses: funivan/github-autopr@0.2
+         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
