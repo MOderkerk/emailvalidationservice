@@ -20,7 +20,7 @@
         <server>
             <id>github</id>
             <username>${secrets.MYUSER}</username>
-            <password>${secrets.MYTOKEN}</password>
+            <password>${secrets.DEPLOYMENT}</password>
         </server>
         <server>
             <id>gpg.passphrase</id>
