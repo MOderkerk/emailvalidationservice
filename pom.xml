@@ -50,6 +50,10 @@
         <dns.version>3.4.3</dns.version>
 
     </properties>
+    <scm>
+        <url>https://github.com/MOderkerk/EmailValidationService/</url>
+        <connection>scm:git:https://github.com/MOderkerk/EmailValidationService.git</connection>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
