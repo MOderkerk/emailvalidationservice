@@ -40,9 +40,7 @@ jobs:
       - name: Change Version of Release version
         run: mvn -B versions:set -DnewVersion=1.0.${{github.run_number}} --file pom.xml -P java${{ matrix.version }}
 
-      - name: Build with Maven
-        run: mvn -B clean package  -DskipTests=true --file pom.xml -P java${{ matrix.version }}
-
+      
       - name: Create Release
         uses: fregante/release-with-changelog@v3
         with:
@@ -57,7 +55,7 @@ jobs:
             {range}
 
       - name: Publish to GitHub Packages Apache Maven
-        run: mvn clean deploy -s settings.xml -DuniqueVersion=false -Dmaven.source.useDefaultManifestFile=true -DdeplyAtEnd=true -Dmaven.source.includePom=true -Dmaven.install.skip=true --file pom.xml 
+        run: mvn clean deploy -DuniqueVersion=false -Dmaven.source.useDefaultManifestFile=true -DdeplyAtEnd=true -DskipTests=true -Dmaven.source.includePom=true -Dmaven.install.skip=true --file pom.xml -P java${{ matrix.version }} 
         
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOYMENT }}
