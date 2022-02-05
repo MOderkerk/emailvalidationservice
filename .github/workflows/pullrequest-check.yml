@@ -52,6 +52,10 @@ jobs:
         uses: christianvuerings/add-labels@v1
         with:
           labels: |
-            automerge
+            auto-merge
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}
+      - name: Approve
+        uses: hmarr/auto-approve-action@v2
+        with:
+         github-token: ${{ secrets.MY_GITHUBKEY }}
