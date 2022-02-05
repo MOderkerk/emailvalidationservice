@@ -84,14 +84,10 @@ jobs:
            java-version: 11
        - name: Changelog
          uses: glennawatson/ChangeLog@v1.1
-         id: changelog
-       - name: Create PR
-         uses: gr2m/create-or-update-pull-request-action@v1.5.1
-         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         id: changelog       
+       - name: Create PR    
+         uses: "smartinspereira/auto-create-pr-action@master" 
          with:
-           title: "Automated Pull request"
-           body: ${{steps.Changelog.outputs.changelog}}           
-           branch: "master"        
-           auto-merge: merge
-           update-pull-request-title-and-body: false
+          secrets:  ${{ secrets.GITHUB_TOKEN }}
+         env: 
+            PULL_REQUEST_BODY: ${{steps.Changelog.outputs.changelog}}   
