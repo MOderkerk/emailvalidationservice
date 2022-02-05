@@ -123,6 +123,7 @@
             <artifactId>dnsjava</artifactId>
             <version>${dns.version}</version>
         </dependency>
+      
 
 
         <!-- Tomcat update for spring boot application due to security findings in Tomcat 9 -->
@@ -201,6 +202,10 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+  			     <groupId>org.springframework.boot</groupId>
+ 			       <artifactId>spring-boot-maven-plugin</artifactId>
+  	    	 </plugin>
         </plugins>
     </build>
     <profiles>
