@@ -97,7 +97,7 @@ jobs:
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
-          branch: master
+          branch: development
           delete-branch: false
           title: 'Automatic Pull Request'
           body: |
