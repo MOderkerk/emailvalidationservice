@@ -83,25 +83,10 @@ jobs:
          with:
            java-version: 11
        - name: Changelog
-         uses: glennawatson/ChangeLog@v1
-         id: changelog
-         
-       - name: Create Pull Request
-         id: cpr
-         uses: peter-evans/create-pull-request@v3
-         with:
-          token: ${{ secrets.MY_GITHUBKEY }}
-          commit-message: Update report
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: master
-          delete-branch: false
-          title: 'Automatic Pull Request'
-          body: |
-             ${{ steps.Changelog.outputs.changelog }}
-          labels: |
-                automated pr
-          draft: false
-           
-
+         uses: glennawatson/ChangeLog@v1.1
+         id: changelog       
+       - name: Create PR    
+         uses: "smartinspereira/auto-create-pr-action@master"          
+         env: 
+            PULL_REQUEST_BODY: ${{steps.Changelog.outputs.changelog}}   
+            GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}
