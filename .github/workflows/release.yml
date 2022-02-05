@@ -1,38 +1,65 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: RELEASE
+name: RELEASEv2
 
 on:
   pull_request:
-    types: [ closed ]
-    branches: [ master ]
+    types:
+      - closed
+
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Give the Branch name"
+        required: true
+        default: "master"
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [ 11 , 16 ]
+        version: [ 11 ]
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 50
       - name: Set up JDK ${{ matrix.version }}
         uses: actions/setup-java@v2
         with:
           java-version: '${{ matrix.version }}'
           distribution: 'adopt'
-          cache: maven
+      - name: Configure Git User
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions"
+
       - name: Change Version of Release version
         run: mvn -B versions:set -DnewVersion=1.0.${{github.run_number}} --file pom.xml -P java${{ matrix.version }}
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml -P java${{ matrix.version }}
+        run: mvn -B clean package  -DskipTests=true --file pom.xml -P java${{ matrix.version }}
 
-      - name: Create a Release
-        uses: elgohr/Github-Release-Action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEPLOY }}
+      - name: Create Release
+        uses: fregante/release-with-changelog@v3
         with:
-          args: New Release
+          token: ${{ secrets.MY_GITHUBKEY }}
+          exclude: '^Meta'
+          commit-template: '- {title} ← {hash}'
+          template: |
+            ### Changelog
 
+            {commits}
 
+            {range}
+
+      - name: Release the package
+        run: mvn release:prepare release:perform -B -s settings.xml -DreleaseVersion=1.0.${{github.run_number}}
+        env:
+          CI_DEPLOY_USERNAME: ${{ secrets.MY_USERNAME }}
+          CI_DEPLOY_PASSWORD: ${{ secrets.DEPLOYMENT }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.DEPLOYMENT }}
