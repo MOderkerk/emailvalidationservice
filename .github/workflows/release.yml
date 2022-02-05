@@ -57,6 +57,7 @@ jobs:
             {range}
 
       - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy -Dmaven.wagon.http.pool=false  -DskipTests=true --file pom.xml -s settings.xml
+        run: mvn clean deploy -s settings.xml -DuniqueVersion=false -Dmaven.source.useDefaultManifestFile=true -DdeplyAtEnd=true -Dmaven.source.includePom=true -Dmaven.install.skip=true --file pom.xml 
+        
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOYMENT }}
