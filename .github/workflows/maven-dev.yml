@@ -87,23 +87,13 @@ jobs:
        - name: Changelog
          uses: glennawatson/ChangeLog@v1
          id: changelog
-         
-       - name: Create Pull Request
-         id: cpr
-         uses: peter-evans/create-pull-request@v3
+       - name: Create PR
+         uses: gr2m/create-or-update-pull-request-action@v1
+         env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
-          token: ${{ secrets.MY_GITHUBKEY }}
-          commit-message: Update report
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: master
-          delete-branch: false
-          title: 'Automatic Pull Request'
-          body: |
-             ${{ steps.Changelog.outputs.changelog }}
-          labels: |
-                automated pr
-          draft: false
-           
-
+           title: "Automated Pull request"
+           body: ${{steps.Changelog.outputs.changelog}}           
+           branch: "master"        
+           auto-merge: merge
+           update-pull-request-title-and-body: false
