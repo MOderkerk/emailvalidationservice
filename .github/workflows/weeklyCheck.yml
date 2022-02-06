@@ -37,7 +37,8 @@ jobs:
             env:
                GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}  # Needed to get PR information, if any
                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_EmailValidationService -Dsonar.qualitygate.wait=true -DskipTests=true
+            run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=MOderkerk_EmailValidationService -Dsonar.qualitygate.wait=true 
+            
           - name: Report error
             if: ${{ failure() }}
             uses: nashmaniac/create-issue-action@v1.1
