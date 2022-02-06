@@ -5,7 +5,11 @@
 Small rest api for validating an email address inplemented as a spring boot application with openapi 3.0 documentation
 
 ## Open APi Documentation : 
-http://localhost:8080/swagger-ui.html
+|| Type || Endpoint ||
+|Website| http://localhost:8080/swagger-ui.html|
+|Json   |: http://localhost:8080/v3/api-docs |
+
+
 
 
 
