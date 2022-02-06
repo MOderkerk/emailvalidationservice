@@ -40,10 +40,11 @@ jobs:
           - name: Report error
             if: ${{ failure() }}
             uses: nashmaniac/create-issue-action@v1.1
-            title: Weekly Sonar Cube analysis failed
-            token: ${{secrets.MY_GITHUBKEY}}            
-            labels: worflow-failed
-            body:  Weekly Sonar Cube analysis failed
+            with:
+             title: Weekly Sonar Cube analysis failed
+             token: ${{secrets.MY_GITHUBKEY}}            
+             labels: worflow-failed
+             body:  Weekly Sonar Cube analysis failed
 
             
             
