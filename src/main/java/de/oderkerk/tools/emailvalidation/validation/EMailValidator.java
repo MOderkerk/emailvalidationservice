@@ -103,7 +103,7 @@ public class EMailValidator implements Serializable {
      */
     protected void splitEMailAddress(String emailAddress) {
         log.debug("Start splitting email : {}", emailAddress);
-        String[] parts = emailAddress.split("@");
+        String[] parts = emailAddress.split("@", -1);
         switch (parts.length) {
             case 1:
                 emailValidationResponse.addErrorToResponse(20001, "Email address has no @ sign.");
@@ -115,8 +115,12 @@ public class EMailValidator implements Serializable {
             default:
                 emailValidationResponse.addErrorToResponse(20002, "Email address has multiple @ signs.");
         }
-        if (recipient.isBlank()) emailValidationResponse.addErrorToResponse(20009, "Email address has no recipient.");
-        if (domain.isBlank()) emailValidationResponse.addErrorToResponse(20012, "Email address has no domain.");
+        if (emailValidationResponse.isEmailIsValid()) {
+            if (recipient.isBlank())
+                emailValidationResponse.addErrorToResponse(20009, "Email address has no recipient.");
+            if (domain.isBlank()) emailValidationResponse.addErrorToResponse(20012, "Email address has no domain.");
+        }
+
 
     }
 
