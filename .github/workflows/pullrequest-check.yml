@@ -71,8 +71,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}
           test: false
           reviewers: FALSE
-          labels: auto-merge, automated-pr
+          labels: automerge
           blocking_labels: do not merge
           checks_enabled: true
-          method: MERGE
+          method: merge
           delete_source_branch: false
+
+
