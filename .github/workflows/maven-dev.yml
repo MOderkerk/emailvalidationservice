@@ -90,6 +90,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3.12.1
         with:
           token: ${{ secrets.MY_GITHUBKEY }}
+          base: master
           branch: development
           delete-branch: false
           title: Automated Pullrequest
@@ -98,5 +99,6 @@ jobs:
           labels: |
             automated pr
           draft: false
+
 
 
