@@ -23,7 +23,13 @@ jobs:
         with:
           java-version: '${{ matrix.version }}'
           distribution: 'adopt'
-          cache: maven
+          cache: maven      
+      - name: enable automerge    
+        uses: hmarr/auto-approve-action@v2
+        with:
+         github-token: ${{ secrets.GITHUB_TOKEN }}
+         pull-request-number: ${{ github.event.inputs.pullRequestNumber }} 
+         
       - name: Build with Maven
         run: mvn -B package --file pom.xml -P java${{ matrix.version }}
 
@@ -52,6 +58,10 @@ jobs:
         uses: christianvuerings/add-labels@v1
         with:
           labels: |
-            automerge
+            auto-merge
         env:
           GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}
+      - name: Approve
+        uses: hmarr/auto-approve-action@v2
+        with:
+         github-token: ${{ secrets.GITHUB_TOKEN }}
