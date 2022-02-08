@@ -115,6 +115,8 @@ public class EMailValidator implements Serializable {
             default:
                 emailValidationResponse.addErrorToResponse(20002, "Email address has multiple @ signs.");
         }
+        if (recipient.isBlank()) emailValidationResponse.addErrorToResponse(20009, "Email address has no recipient.");
+        if (domain.isBlank()) emailValidationResponse.addErrorToResponse(20012, "Email address has no domain.");
 
     }
 
