@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.oderkerk.tools</groupId>
-    <artifactId>emailvalidationService</artifactId>
+    <artifactId>emailvalidation</artifactId>
     <version>1.0.0</version>
 
     <parent>
