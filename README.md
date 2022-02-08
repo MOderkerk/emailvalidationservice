@@ -1,5 +1,6 @@
 # EmailValidationService
 
+
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=MOderkerk_EmailValidationService)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
 
 ## Description
@@ -8,12 +9,14 @@ Small rest api for validating an email address implemented as a spring boot appl
 
 ## Open APi Documentation :
 
+
 | Type | Endpoint |
 |------|-------|
 |Website| http://localhost:8080/swagger-ui.html|
 |Json   | http://localhost:8080/v3/api-docs |
 
 ## Requests:
+
 
 ### /api/v1/validate
 
@@ -33,10 +36,11 @@ activate a check for the mx dns entry of the domain
 
 ## Error informations
 
+
 | Error Number | Description | Further information
 |---|---|---
 |100001 | Parameter of the request are invalid | Check your Requestbody
-|20001 | Email address has no @ sign. |
+|20001 | Email address has no @ sign. |t
 |20002 | Email address has multiple @ signs.
 |20003 | Domain of email address end with a dot. Tld missing
 |20004 | Domain of email address has no dot with in it.
