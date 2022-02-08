@@ -93,6 +93,8 @@ jobs:
           token: ${{ secrets.MY_GITHUBKEY }}
           pr_title: Automated PR
           pr_source: development
+          pr_target: master
+          pr_labels: auto-merge, automated-pr
           pr_body: |
             ### Changes
              ${{steps.Changelog.outputs.changelog}}
