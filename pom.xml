@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.oderkerk.tools</groupId>
-    <artifactId>emailvalidation</artifactId>
+    <artifactId>emailvalidationService</artifactId>
     <version>1.0.0</version>
 
     <parent>
@@ -123,7 +123,6 @@
             <artifactId>dnsjava</artifactId>
             <version>${dns.version}</version>
         </dependency>
-      
 
 
         <!-- Tomcat update for spring boot application due to security findings in Tomcat 9 -->
@@ -203,9 +202,9 @@
                 </executions>
             </plugin>
             <plugin>
-  			     <groupId>org.springframework.boot</groupId>
- 			       <artifactId>spring-boot-maven-plugin</artifactId>
-  	    	 </plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -219,7 +218,7 @@
                 <maven.compiler.target>11</maven.compiler.target>
             </properties>
             <build>
-                <finalName>emailvalidationservice</finalName>
+                <finalName>odinsEmailValidationV11</finalName>
             </build>
         </profile>
 
@@ -230,7 +229,7 @@
                 <maven.compiler.target>16</maven.compiler.target>
             </properties>
             <build>
-                <finalName>emailvalidationservicev16</finalName>
+                <finalName>odinsEmailValidationV16</finalName>
             </build>
         </profile>
         <profile>
@@ -240,7 +239,7 @@
                 <maven.compiler.target>11</maven.compiler.target>
             </properties>
             <build>
-                <finalName>emailvalidationservice</finalName>
+                <finalName>odinsEmailValidationV11</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.owasp</groupId>
@@ -257,16 +256,17 @@
                             </execution>
                         </executions>
                     </plugin>
-                  <plugin>
-                     <artifactId>maven-jar-plugin</artifactId>
-                     <configuration>
-                      <archive>
-                       <manifest>
-                         <mainClass>de.oderkerk.tools.emailvalidation.EmailValidationServiceApplication</mainClass>
-                       </manifest>
-                       </archive>
-                    </configuration>
-      </plugin>
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>de.oderkerk.tools.emailvalidation.EmailValidationServiceApplication
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -276,7 +276,7 @@
         <repository>
             <id>github</id>
             <name>Githubpages</name>
-            <url>https://maven.pkg.github.com/MOderkerk/emailvalidationservice</url>
+            <url>https://maven.pkg.github.com/moderkerk/EmailValidationService</url>
         </repository>
     </distributionManagement>
 </project>

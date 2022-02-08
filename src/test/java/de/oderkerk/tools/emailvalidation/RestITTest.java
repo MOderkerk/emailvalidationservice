@@ -17,7 +17,8 @@ package de.oderkerk.tools.emailvalidation;
 
 import de.oderkerk.tools.emailvalidation.rest.EmailValidationRequest;
 import de.oderkerk.tools.emailvalidation.rest.EmailValidationResponse;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
@@ -40,26 +41,38 @@ class RestITTest {
     @LocalServerPort
     int randomServerPort;
 
-    @Test
-    void testRestController() throws IOException, URISyntaxException {
+
+    @ParameterizedTest
+    @CsvSource({
+            "test@oderkerk.de"
+
+    })
+    void testRestControllerOK(String testcase) throws IOException, URISyntaxException {
 
 
         RestTemplate restTemplate = new RestTemplate();
 
         EmailValidationRequest emailValidationRequest = new EmailValidationRequest();
-        emailValidationRequest.setEmailAddress("test@oderkerk.de,false,true");
+        emailValidationRequest.setEmailAddress(testcase);
         HttpEntity<EmailValidationRequest> requestHttpEntity = RequestEntity.post(new URL("http://localhost:" + randomServerPort + "/api/v1/validate").toURI()).contentType(MediaType.APPLICATION_JSON).body(emailValidationRequest);
         ResponseEntity<EmailValidationResponse> response = restTemplate.exchange((RequestEntity<?>) requestHttpEntity, EmailValidationResponse.class);
         assertTrue(Objects.requireNonNull(response.getBody()).isEmailIsValid());
     }
 
-    @Test
-    void testRestControllerError() throws IOException, URISyntaxException {
+    @ParameterizedTest
+    @CsvSource({
+            "test@ode'rkerk.de",
+            "@oderkerk.de",
+            "test@.de",
+
+    })
+    void testRestControllerInvalid(String testcase) throws IOException, URISyntaxException {
+
 
         RestTemplate restTemplate = new RestTemplate();
 
         EmailValidationRequest emailValidationRequest = new EmailValidationRequest();
-        emailValidationRequest.setEmailAddress("test@o'erkerk.de,false,true");
+        emailValidationRequest.setEmailAddress(testcase);
         HttpEntity<EmailValidationRequest> requestHttpEntity = RequestEntity.post(new URL("http://localhost:" + randomServerPort + "/api/v1/validate").toURI()).contentType(MediaType.APPLICATION_JSON).body(emailValidationRequest);
         ResponseEntity<EmailValidationResponse> response = restTemplate.exchange((RequestEntity<?>) requestHttpEntity, EmailValidationResponse.class);
         assertFalse(Objects.requireNonNull(response.getBody()).isEmailIsValid());

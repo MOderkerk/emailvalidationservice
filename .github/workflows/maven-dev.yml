@@ -90,3 +90,4 @@ jobs:
          env: 
             PULL_REQUEST_BODY: ${{steps.Changelog.outputs.changelog}}   
             GITHUB_TOKEN: ${{ secrets.MY_GITHUBKEY }}
+            PULL_REQUEST_DRAFT: "false"
