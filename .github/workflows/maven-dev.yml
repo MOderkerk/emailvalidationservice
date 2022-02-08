@@ -82,12 +82,21 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Git pr release action
-        uses: grassedge/git-pr-release-action@v1.0
+      - name: Changelog
+        uses: glennawatson/ChangeLog@v1.1
+        id: changelog
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3.12.1
         with:
-          base: master
-          head: development
           token: ${{ secrets.MY_GITHUBKEY }}
-          labels: auto-merge, release
-          assign: true
+          branch: development
+          delete-branch: false
+          title: Automated Pullrequest
+          body: |
+            ${{steps.Changelog.outputs.changelog}}
+          labels: |
+            automated pr
+          draft: false
+
 
