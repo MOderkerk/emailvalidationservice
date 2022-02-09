@@ -36,7 +36,7 @@ public class IllegalCharacterIdentification {
     private static final String REGEX_DOMAIN = "\\b[|']";
     private static final String REGEX_SPECIAL_START = "^[!\"§$%&\\/()=?`#~+*\\[\\]]";
     private static final String REGEX_SPECIAL_END = "[!\"§$%&\\/()=?`#~+*\\[\\]]$";
-
+ 
     /**
      * Check the given String gainst the given rule
      *
