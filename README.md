@@ -1,8 +1,14 @@
 # EmailValidationService
-
-
-[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=MOderkerk_EmailValidationService)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
-
+[![BUILD](https://github.com/MOderkerk/emailvalidationservice/actions/workflows/maven-dev.yml/badge.svg?branch=development)](https://github.com/MOderkerk/emailvalidationservice/actions/workflows/maven-dev.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MOderkerk_EmailValidationService&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
+[![PULLREQUEST_TO_MASTER](https://github.com/MOderkerk/emailvalidationservice/actions/workflows/pullrequest-check.yml/badge.svg)](https://github.com/MOderkerk/emailvalidationservice/actions/workflows/pullrequest-check.yml)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=MOderkerk_EmailValidationService&metric=bugs)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=MOderkerk_EmailValidationService&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=MOderkerk_EmailValidationService&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=MOderkerk_EmailValidationService&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=MOderkerk_EmailValidationService&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=MOderkerk_EmailValidationService&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=MOderkerk_EmailValidationService&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=MOderkerk_EmailValidationService)
 ## Description
 
 Small rest api for validating an email address implemented as a spring boot application with openapi 3.0 documentation
