@@ -62,9 +62,16 @@ public class IllegalCharacterIdentification {
         Matcher matcher = pattern.matcher(input);
         if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
 
+
         if (rule != CheckRuleEnum.RECIPIENT) {
             pattern = Pattern.compile(REGEX_SPECIAL_START, Pattern.CASE_INSENSITIVE);
             matcher = pattern.matcher(input);
+            if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
+        }
+        else
+        {
+            pattern = Pattern.compile(REGEX_SPECIAL_START, Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(input.substring(0,1));
             if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
         }
         if (rule.equals(CheckRuleEnum.TLD)) {
