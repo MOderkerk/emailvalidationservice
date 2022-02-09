@@ -44,8 +44,9 @@ class RestITTest {
 
     @ParameterizedTest
     @CsvSource({
-            "test@oderkerk.de"
-
+            "test@oderkerk.de",
+            "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghiklm@iana.org",
+            "#%&*+/=^{}~@iana.org"
     })
     void testRestControllerOK(String testcase) throws IOException, URISyntaxException {
 
@@ -64,19 +65,62 @@ class RestITTest {
             "test@ode'rkerk.de",
             "@oderkerk.de",
             "test@.de",
+            "test",
+            "@",
+            "test@",
+            "@io",
+            "@oderkerk.org",
+            ".test@oderkerk.org",
+            "test.@oderkerk.org",
+            "test..oderkerk.org",
+            "test_exa-mple.com",
+            "test\\@test@oderkerk.org",
+            "test@-oderkerk.org",
+            "test@oderkerk-.com",
+            "test@.oderkerk.org",
+            "test@oderkerk.org.",
+            "test@oderkerk..com",
+            "\"\"\"@oderkerk.org",
+            "\"@oderkerk.org",
+            "test\"@oderkerk.org",
+            "test@a[255.255.255.255]",
+            "test@255.255.255.255",
+            "((comment)test@oderkerk.org",
+            "test(comment)test@oderkerk.org",
+            "test@oderkerk.org?",
+            "test@oderkerk.org-",
+            "(test@oderkerk.org",
+            "test@(oderkerk.org",
+            "test@[1.2.3.4",
+            "test\"@oderkerk.org",
+            "test@?.org",
+            "??test@oderkerk.org",
+            "?? ??test@oderkerk.org",
+            " ??test@oderkerk.org",
+            " ?? ??test@oderkerk.org",
+            " ????test@oderkerk.org",
+            " ???? test@oderkerk.org",
+            "test@oderkerk.org??",
+            "test@oderkerk.org?? ??",
+            "test@oderkerk.org ??",
+            "test@oderkerk.org ?? ??",
+            "test@oderkerk.org ????",
+            "test@oderkerk.org ???? ",
+            "test\\©\"@oderkerk.org"
 
-    })
-    void testRestControllerInvalid(String testcase) throws IOException, URISyntaxException {
+
+                })
+                void testRestControllerInvalid(String testcase) throws IOException, URISyntaxException {
 
 
-        RestTemplate restTemplate = new RestTemplate();
+                    RestTemplate restTemplate = new RestTemplate();
 
-        EmailValidationRequest emailValidationRequest = new EmailValidationRequest();
-        emailValidationRequest.setEmailAddress(testcase);
-        HttpEntity<EmailValidationRequest> requestHttpEntity = RequestEntity.post(new URL("http://localhost:" + randomServerPort + "/api/v1/validate").toURI()).contentType(MediaType.APPLICATION_JSON).body(emailValidationRequest);
-        ResponseEntity<EmailValidationResponse> response = restTemplate.exchange((RequestEntity<?>) requestHttpEntity, EmailValidationResponse.class);
-        assertFalse(Objects.requireNonNull(response.getBody()).isEmailIsValid());
-    }
+                    EmailValidationRequest emailValidationRequest = new EmailValidationRequest();
+                    emailValidationRequest.setEmailAddress(testcase);
+                    HttpEntity<EmailValidationRequest> requestHttpEntity = RequestEntity.post(new URL("http://localhost:" + randomServerPort + "/api/v1/validate").toURI()).contentType(MediaType.APPLICATION_JSON).body(emailValidationRequest);
+                    ResponseEntity<EmailValidationResponse> response = restTemplate.exchange((RequestEntity<?>) requestHttpEntity, EmailValidationResponse.class);
+                    assertFalse(Objects.requireNonNull(response.getBody()).isEmailIsValid());
+                }
 
 
-}
+            }

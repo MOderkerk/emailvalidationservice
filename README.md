@@ -45,13 +45,17 @@ activate a check for the mx dns entry of the domain
 |20003 | Domain of email address end with a dot. Tld missing
 |20004 | Domain of email address has no dot with in it.
 |20005  | Recipient part is too long. | Check the email
+|20006  | Recipient part starts or ends with a dot. | Check the email
 |20008  | Recipient part contains forbidden or dangerous characters | check the email
 |20009  | Email address has no recipient |
 |20010  | Domain part is too long  > 253 chars |
 |20011  | Domain part contains forbidden or dangerous characters   |
 |20012  | Email address has no domain. |
-|200020 | Email is on the  onetime or disposal mail list | if you accepts one time mails set oneTimeMailAllowed to true
-|200022 | MX lookup failed | There is something wrong with the domain of the given email address
+|20013  | Domain starts or ends with a dash . |
+|20014  | TLD starts or ends with an dot .|
+|20015  | TLD part contains forbidden or dangerous characters or is an IP Address   |
+|20020 | Email is on the  onetime or disposal mail list | if you accepts one time mails set oneTimeMailAllowed to true
+|20022 | MX lookup failed | There is something wrong with the domain of the given email address
 |999999 | Technical error | Look in the logs and open an issue here in the project. This type of error should never come :) 
 
 

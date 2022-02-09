@@ -80,7 +80,7 @@ public class EMailValidator implements Serializable {
             this.emailValidationResponse = new DomainPartAnalyzer(emailValidationResponse).analyze(getDomain());
         }
         if (!oneTimeMailAllowed && OnetimeMailChecker.isListedInBlacklist(domainWithTld)) {
-            this.emailValidationResponse.addErrorToResponse(200020, "EMail is a disposal or onetime mail and on the domain blacklist");
+            this.emailValidationResponse.addErrorToResponse(20020, "EMail is a disposal or onetime mail and on the domain blacklist");
         }
         if (tryDNSCheck) {
             try {
@@ -88,7 +88,7 @@ public class EMailValidator implements Serializable {
                 lookup.lookupMX(domainWithTld);
             } catch (MXLookUpException ex) {
                 if ("Domain not found".equals(ex.getMessage()))
-                    this.emailValidationResponse.addErrorToResponse(200022, ex.toString());
+                    this.emailValidationResponse.addErrorToResponse(20022, ex.toString());
                 else throw ex;
             }
         }
@@ -148,6 +148,12 @@ public class EMailValidator implements Serializable {
             } else {
                 this.domain = domainTldSplit[0];
                 this.tld = domainTldSplit[1];
+                try {
+                    IllegalCharacterIdentification.checkString(this.tld, CheckRuleEnum.TLD);
+                } catch (IllegalArgumentException ex) {
+                    emailValidationResponse.addErrorToResponse(20015, ex.getMessage());
+                }
+                if (this.tld.startsWith(".")||this.tld.endsWith("."))  emailValidationResponse.addErrorToResponse(20003, "Domain of email address end with a dot. Tld missing");
             }
         }
     }

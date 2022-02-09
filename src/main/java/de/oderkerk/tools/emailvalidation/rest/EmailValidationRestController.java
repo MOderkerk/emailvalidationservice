@@ -49,7 +49,7 @@ public class EmailValidationRestController implements Serializable {
         checkRequestData(emailValidationRequest);
         EMailValidator eMailValidator = new EMailValidator();
         EmailValidationResponse emailValidationResponse = eMailValidator.validateEMailAddress(emailValidationRequest.getEmailAddress(), emailValidationRequest.isOneTimeMailAllowed(), emailValidationRequest.isTryDNSCheck());
-        log.debug("Result of Validation of email {} : {}", emailValidationRequest.getEmailAddress(), emailValidationResponse.toString());
+        log.debug("Result of Validation of email {} : {}", emailValidationRequest.getEmailAddress(), emailValidationResponse);
         return new ResponseEntity<>(emailValidationResponse, HttpStatus.OK);
     }
 

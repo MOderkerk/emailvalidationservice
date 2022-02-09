@@ -44,6 +44,7 @@ public class DomainPartAnalyzer {
         } catch (IllegalArgumentException ex) {
             emailValidationResponse.addErrorToResponse(20011, ex.getMessage());
         }
+        if (domain.startsWith("-")|| domain.endsWith("-")) emailValidationResponse.addErrorToResponse(20013, "Domain starts or ends with a dash ");
         return this.emailValidationResponse;
     }
 }

@@ -35,7 +35,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@ToString
 public class EmailValidationResponse implements Serializable {
 
     public EmailValidationResponse(String uniqueID, boolean emailIsValid, List<ValidationError> validationErrorList) {
@@ -81,5 +80,12 @@ public class EmailValidationResponse implements Serializable {
         this.getValidationErrorList().add(new ValidationError(errorNo, errorMsg));
     }
 
-
+    @Override
+    public String toString() {
+        return "EmailValidationResponse{" +
+                "uniqueID='" + uniqueID + '\'' +
+                ", emailIsValid=" + emailIsValid +
+                ", validationErrorList=" + validationErrorList.toString() +
+                '}';
+    }
 }

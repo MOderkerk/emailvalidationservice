@@ -17,6 +17,7 @@ package de.oderkerk.tools.emailvalidation.validation;
 
 import de.oderkerk.tools.emailvalidation.rest.EmailValidationResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Analyzing the recipient part of an email
@@ -52,6 +53,8 @@ public class RecipientPartAnalyzer {
         } catch (IllegalArgumentException ex) {
             emailValidationResponse.addErrorToResponse(20008, ex.getMessage());
         }
+        if (recipient.startsWith(".")|| recipient.endsWith(".")) emailValidationResponse.addErrorToResponse(20006, "Recipient starts or ends with a dot ");
+        if (StringUtils.countMatches(recipient,'"')%2 != 0) emailValidationResponse.addErrorToResponse(20015, "Recipient has an unbalanced count of \" ");
         return this.emailValidationResponse;
     }
 }

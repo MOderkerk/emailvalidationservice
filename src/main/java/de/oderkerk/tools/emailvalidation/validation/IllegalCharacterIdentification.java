@@ -31,7 +31,7 @@ public class IllegalCharacterIdentification {
     /**
      * Illegal chars used in recipient
      */
-    private static final String REGEX_RECIPIENT = "\\b[|']";
+    private static final String REGEX_RECIPIENT = "[|?'()]";
     private static final String REGEX_TLD = "[^A-Za-z0-9]";
     private static final String REGEX_DOMAIN = "\\b[|']";
     private static final String REGEX_SPECIAL_START = "^[!\"§$%&\\/()=?`#~+*\\[\\]]";
@@ -62,10 +62,11 @@ public class IllegalCharacterIdentification {
         Matcher matcher = pattern.matcher(input);
         if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
 
-        pattern = Pattern.compile(REGEX_SPECIAL_START, Pattern.CASE_INSENSITIVE);
-        matcher = pattern.matcher(input);
-        if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
-
+        if (rule != CheckRuleEnum.RECIPIENT) {
+            pattern = Pattern.compile(REGEX_SPECIAL_START, Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(input);
+            if (matcher.find()) throw new IllegalArgumentException(ILLEGAL_CHARACTERS_FOUND);
+        }
         if (rule.equals(CheckRuleEnum.TLD)) {
             pattern = Pattern.compile(REGEX_SPECIAL_END, Pattern.CASE_INSENSITIVE);
             matcher = pattern.matcher(input);
