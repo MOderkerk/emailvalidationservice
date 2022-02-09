@@ -45,8 +45,7 @@ class RestITTest {
     @ParameterizedTest
     @CsvSource({
             "test@oderkerk.de",
-            "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghiklm@iana.org",
-            "#%&*+/=^{}~@iana.org"
+            "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghiklm@iana.org"
     })
     void testRestControllerOK(String testcase) throws IOException, URISyntaxException {
 
